@@ -1,5 +1,6 @@
 # War2Twitch
 Warcraft2 game chat integration with twitch
+
 game plugin + program
 
 plugin set 2 buffers for messages.

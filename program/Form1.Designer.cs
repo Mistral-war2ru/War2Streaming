@@ -1,4 +1,4 @@
-﻿namespace War2Twitch
+namespace War2Twitch
 {
     partial class Form1
     {
@@ -43,14 +43,17 @@
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 74);
+            this.label1.Location = new System.Drawing.Point(16, 91);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(108, 13);
+            this.label1.Size = new System.Drawing.Size(144, 17);
             this.label1.TabIndex = 0;
             this.label1.Text = "Waiting for messages";
             // 
@@ -62,9 +65,10 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(332, 12);
+            this.button1.Location = new System.Drawing.Point(443, 15);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 46);
+            this.button1.Size = new System.Drawing.Size(100, 57);
             this.button1.TabIndex = 1;
             this.button1.Text = "Connect";
             this.button1.UseVisualStyleBackColor = true;
@@ -72,61 +76,68 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(12, 12);
+            this.textBox2.Location = new System.Drawing.Point(16, 15);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
             this.textBox2.Name = "textBox2";
             this.textBox2.PasswordChar = '*';
-            this.textBox2.Size = new System.Drawing.Size(250, 20);
+            this.textBox2.Size = new System.Drawing.Size(332, 22);
             this.textBox2.TabIndex = 3;
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(12, 38);
+            this.textBox3.Location = new System.Drawing.Point(16, 47);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(4);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(250, 20);
+            this.textBox3.Size = new System.Drawing.Size(332, 22);
             this.textBox3.TabIndex = 4;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 61);
+            this.label2.Location = new System.Drawing.Point(16, 75);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(119, 13);
+            this.label2.Size = new System.Drawing.Size(152, 17);
             this.label2.TabIndex = 5;
             this.label2.Text = "Twitch NOT connected";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 98);
+            this.label3.Location = new System.Drawing.Point(16, 121);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(91, 13);
+            this.label3.Size = new System.Drawing.Size(122, 17);
             this.label3.TabIndex = 6;
             this.label3.Text = "Created by Mistral";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(468, 98);
+            this.label4.Location = new System.Drawing.Point(624, 121);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(42, 13);
+            this.label4.Size = new System.Drawing.Size(55, 17);
             this.label4.TabIndex = 7;
             this.label4.Text = "war2.ru";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(268, 41);
+            this.label6.Location = new System.Drawing.Point(357, 50);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(45, 13);
+            this.label6.Size = new System.Drawing.Size(58, 17);
             this.label6.TabIndex = 9;
             this.label6.Text = "channel";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(268, 15);
+            this.label7.Location = new System.Drawing.Point(357, 18);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(58, 13);
+            this.label7.Size = new System.Drawing.Size(75, 17);
             this.label7.TabIndex = 10;
             this.label7.Text = "auth token";
             // 
@@ -140,9 +151,10 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Checked = true;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(413, 12);
+            this.checkBox1.Location = new System.Drawing.Point(551, 15);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(103, 17);
+            this.checkBox1.Size = new System.Drawing.Size(132, 21);
             this.checkBox1.TabIndex = 11;
             this.checkBox1.Text = "Read Messages";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -152,18 +164,39 @@
             this.checkBox2.AutoSize = true;
             this.checkBox2.Checked = true;
             this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox2.Location = new System.Drawing.Point(413, 37);
+            this.checkBox2.Location = new System.Drawing.Point(551, 46);
+            this.checkBox2.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(102, 17);
+            this.checkBox2.Size = new System.Drawing.Size(131, 21);
             this.checkBox2.TabIndex = 12;
             this.checkBox2.Text = "Write Messages";
             this.checkBox2.UseVisualStyleBackColor = true;
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(360, 118);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(256, 22);
+            this.textBox1.TabIndex = 13;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(279, 121);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(73, 17);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "War2 EXE";
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(515, 118);
+            this.ClientSize = new System.Drawing.Size(687, 145);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label7);
@@ -176,8 +209,11 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "War2Twitch";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -198,6 +234,7 @@
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label5;
     }
 }
-

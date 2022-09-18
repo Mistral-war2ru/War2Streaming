@@ -31,31 +31,35 @@ public class MemoryRead
     public static int pp = 0;
     public static List<string> msgs = new List<string>();
 
-    public static void ReadPointers()
+    public static void ReadPointers(string name)
     {
         pp = 0;
         pb = 0;
         pm = 0;
-        Process[] process = Process.GetProcessesByName("Warcraft II BNE");
+        string nm = "Warcraft II BNE";
+        if (name != "") nm = name;
+        Process[] process = Process.GetProcessesByName(nm);
         if (process.Length == 0)
             return;
         IntPtr processHandle = OpenProcess(PROCESS_WM_READ, false, process[0].Id);
         int bytesRead = 0;
         byte[] buf = new byte[4];
-        ReadProcessMemory((int)processHandle, 0x0048FFF0, buf, 4, ref bytesRead);//read pointers
+        ReadProcessMemory((int)processHandle, 0x0048FFF0, buf, 4, ref bytesRead);
         pp = buf[0] + 256 * buf[1] + 256 * 256 * buf[2] + 256 * 256 * 256 * buf[3];
-        ReadProcessMemory((int)processHandle, pp, buf, 4, ref bytesRead);//read pointer to message buffer
+        ReadProcessMemory((int)processHandle, pp, buf, 4, ref bytesRead);
         pm = buf[0] + 256 * buf[1] + 256 * 256 * buf[2] + 256 * 256 * 256 * buf[3];
-        ReadProcessMemory((int)processHandle, pp + 4, buf, 4, ref bytesRead);//read pointer to receiving buffer
+        ReadProcessMemory((int)processHandle, pp + 4, buf, 4, ref bytesRead);
         pb = buf[0] + 256 * buf[1] + 256 * 256 * buf[2] + 256 * 256 * 256 * buf[3];
         CloseHandle(processHandle);
     }
 
-    public static int SendMsg(string msg)
+    public static int SendMsg(string msg, string name)
     {
         int ret = 0;
-        ReadPointers();
-        Process[] process = Process.GetProcessesByName("Warcraft II BNE");
+        ReadPointers(name);
+        string nm = "Warcraft II BNE";
+        if (name != "") nm = name;
+        Process[] process = Process.GetProcessesByName(nm);
         if (process.Length == 0)
             return 0;
         IntPtr processHandle = OpenProcess(0x001F0FFF, false, process[0].Id);
@@ -64,7 +68,7 @@ public class MemoryRead
             int bytesRead = 0;
             byte[] buf = new byte[1];
             ReadProcessMemory((int)processHandle, pm, buf, 1, ref bytesRead);
-            if (buf[0] == 0)//if message buffer is empty
+            if (buf[0] == 0)
             {
                 byte[] buf2 = new byte[64];
                 buf2[0] = 0;
@@ -85,11 +89,13 @@ public class MemoryRead
         return ret;
     }
 
-    public static int RecMsg()
+    public static int RecMsg(string name)
     {
         int ret = 0;
-        ReadPointers();
-        Process[] process = Process.GetProcessesByName("Warcraft II BNE");
+        ReadPointers(name);
+        string nm = "Warcraft II BNE";
+        if (name != "") nm = name;
+        Process[] process = Process.GetProcessesByName(nm);
         if (process.Length == 0)
             return 0;
         IntPtr processHandle = OpenProcess(0x001F0FFF, false, process[0].Id);
@@ -98,7 +104,7 @@ public class MemoryRead
             int bytesRead = 0;
             byte[] buf = new byte[1];
             ReadProcessMemory((int)processHandle, pb, buf, 1, ref bytesRead);
-            if (buf[0] != 0)//if receiving buffer not empty
+            if (buf[0] != 0)
             {
                 byte[] buf2 = new byte[64];
                 buf2[0] = 0;
@@ -191,7 +197,7 @@ namespace War2Twitch
     static class Program
     {
         /// <summary>
-        /// main entry point
+        /// Главная точка входа для приложения.
         /// </summary>
         [STAThread]
         static void Main()

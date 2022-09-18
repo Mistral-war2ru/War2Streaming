@@ -1,5 +1,7 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
+using System.IO;
+using System.Text;
 using TwitchLib.Client;
 using TwitchLib.Client.Models;
 using TwitchLib.Communication.Clients;
@@ -34,7 +36,7 @@ namespace War2Twitch
             {
                 if (checkBox1.Checked)
                 {
-                    int r = MemoryRead.SendMsg(b.text);
+                    int r = MemoryRead.SendMsg(b.text, textBox1.Text);
                     if (r == 1)
                     {
                         label1.Text = "Message was send to War2 successfully";
@@ -56,7 +58,7 @@ namespace War2Twitch
                 {
                     if (checkBox2.Checked)
                     {
-                        MemoryRead.RecMsg();
+                        MemoryRead.RecMsg(textBox1.Text);
                         if (MemoryRead.msgs.Count != 0)
                         {
                             label1.Text = "Received message from War2: " + MemoryRead.msgs[0];
@@ -108,6 +110,38 @@ namespace War2Twitch
         {
             if (b.con == 0)
                 label2.Text = "Twitch NOT connected";
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            if (File.Exists("record.save"))
+            {
+                StreamReader F = File.OpenText("record.save");
+                while (!F.EndOfStream)
+                {
+                    string S = F.ReadLine();
+                    textBox1.Text = S;
+                    S = F.ReadLine();
+                    textBox2.Text = S;
+                    S = F.ReadLine();
+                    textBox3.Text = S;
+                }
+                F.Close();
+            }
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (File.Exists("record.save"))
+                File.Delete("record.save");
+            FileStream F = File.OpenWrite("record.save");
+            byte[] info = new UTF8Encoding(true).GetBytes(textBox1.Text + "\n");
+            F.Write(info, 0, info.Length);
+            byte[] info2 = new UTF8Encoding(true).GetBytes(textBox2.Text + "\n");
+            F.Write(info2, 0, info2.Length);
+            byte[] info3 = new UTF8Encoding(true).GetBytes(textBox3.Text + "\n");
+            F.Write(info3, 0, info3.Length);
+            F.Close();
         }
     }
 }

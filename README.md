@@ -8,7 +8,9 @@ every game tick it checking if receiving buffer not empty it shows message in ga
 if player writes something in chat plugin put it into sending buffer.
 
 program using twitch auth key to connect to channel chat and listening for messages.
+
 you can get twitch auth here: https://twitchapps.com/tmi/
+
 messages saved in list then sended to game plugin buffer one by one.
 and also program checking game plugin sending buffer and resend message from it to twitch channel chat.
 

@@ -1,4 +1,4 @@
-﻿namespace War2Streaming
+namespace War2Streaming
 {
     partial class Form1
     {
@@ -66,17 +66,28 @@
             this.checkBox7 = new System.Windows.Forms.CheckBox();
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
+            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.textBox12 = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.textBox13 = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.textBox14 = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(429, 250);
+            this.label1.Location = new System.Drawing.Point(389, 250);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(160, 17);
+            this.label1.Size = new System.Drawing.Size(163, 17);
             this.label1.TabIndex = 0;
-            this.label1.Text = "War2 process not found";
+            this.label1.Text = "War2 process not found!";
             // 
             // timer1
             // 
@@ -241,7 +252,7 @@
             // 
             this.linkLabel1.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(624, 534);
+            this.linkLabel1.Location = new System.Drawing.Point(631, 592);
             this.linkLabel1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(55, 17);
@@ -254,7 +265,7 @@
             // 
             this.linkLabel2.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
             this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(13, 534);
+            this.linkLabel2.Location = new System.Drawing.Point(10, 592);
             this.linkLabel2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(122, 17);
@@ -440,11 +451,123 @@
             this.label11.TabIndex = 39;
             this.label11.Text = "Youtube Channel ID";
             // 
+            // textBox10
+            // 
+            this.textBox10.Location = new System.Drawing.Point(432, 176);
+            this.textBox10.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox10.Name = "textBox10";
+            this.textBox10.Size = new System.Drawing.Size(101, 22);
+            this.textBox10.TabIndex = 40;
+            this.textBox10.Text = "60";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(535, 179);
+            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(139, 17);
+            this.label12.TabIndex = 41;
+            this.label12.Text = "Youtube refresh rate";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(145, 541);
+            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(207, 17);
+            this.label13.TabIndex = 43;
+            this.label13.Text = "Clear names list war2 command";
+            // 
+            // textBox11
+            // 
+            this.textBox11.Location = new System.Drawing.Point(13, 536);
+            this.textBox11.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(124, 22);
+            this.textBox11.TabIndex = 42;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(145, 569);
+            this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(185, 17);
+            this.label14.TabIndex = 45;
+            this.label14.Text = "Toggle draw war2 command";
+            // 
+            // textBox12
+            // 
+            this.textBox12.Location = new System.Drawing.Point(365, 538);
+            this.textBox12.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox12.Name = "textBox12";
+            this.textBox12.Size = new System.Drawing.Size(101, 22);
+            this.textBox12.TabIndex = 44;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(474, 538);
+            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(194, 17);
+            this.label15.TabIndex = 47;
+            this.label15.Text = "Toggle usage war2 command";
+            // 
+            // textBox13
+            // 
+            this.textBox13.Location = new System.Drawing.Point(13, 566);
+            this.textBox13.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox13.Name = "textBox13";
+            this.textBox13.Size = new System.Drawing.Size(124, 22);
+            this.textBox13.TabIndex = 46;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(474, 570);
+            this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(191, 17);
+            this.label16.TabIndex = 49;
+            this.label16.Text = "Change color war2 command";
+            // 
+            // textBox14
+            // 
+            this.textBox14.Location = new System.Drawing.Point(365, 568);
+            this.textBox14.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox14.Name = "textBox14";
+            this.textBox14.Size = new System.Drawing.Size(101, 22);
+            this.textBox14.TabIndex = 48;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(452, 295);
+            this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(119, 17);
+            this.label17.TabIndex = 50;
+            this.label17.Text = "Names color: 251";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(687, 561);
+            this.ClientSize = new System.Drawing.Size(687, 618);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.textBox14);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.textBox13);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.textBox12);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.textBox11);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.textBox10);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.textBox9);
             this.Controls.Add(this.checkBox7);
@@ -529,6 +652,16 @@
         private System.Windows.Forms.CheckBox checkBox7;
         private System.Windows.Forms.TextBox textBox9;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox textBox10;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox textBox13;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox textBox14;
+        private System.Windows.Forms.Label label17;
     }
 }
-

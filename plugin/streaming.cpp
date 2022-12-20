@@ -29,12 +29,13 @@ struct unit_names
 };
 bool game_started = false;
 DWORD draw_names = 1;
-char pointers[16] = { 0 };
+char pointers[20] = { 0 };
 char msg[60];
 char bmsg[60];
 char users[1000][32];
 unit_names namaes[1600];
 int last = -1;
+byte color = 251;
 
 void show_message(byte time, char* text)
 {
@@ -435,7 +436,7 @@ void drawing()
                                     draw_text(
                                         m_minx + xx - cx * 32,
                                         m_miny + yy - cy * 32 - 10,
-                                        251, (unsigned char*)users[namaes[uid].name_id], 0, 0, true);
+                                        color, (unsigned char*)users[namaes[uid].name_id], 0, 0, true);
                                 }
                                 else
                                 {
@@ -489,6 +490,7 @@ extern "C" __declspec(dllexport) void w2p_init()
     patch_setdword((DWORD*)(pointers + 4), (DWORD)bmsg);
     patch_setdword((DWORD*)(pointers + 8), (DWORD)users);
     patch_setdword((DWORD*)(pointers + 12), (DWORD)&draw_names);
+    patch_setdword((DWORD*)(pointers + 16), (DWORD)&color);
     patch_setdword((DWORD*)0x0048FFF0, (DWORD)pointers);
 
     hook(0x0045271B, &g_proc_0045271B, (char*)update_spells);

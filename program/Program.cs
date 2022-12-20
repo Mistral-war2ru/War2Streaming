@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
@@ -9,6 +9,7 @@ using TwitchLib.Communication.Clients;
 using TwitchLib.Communication.Models;
 using Google.Apis.YouTube.v3.Data;
 using StreamingClient.Base.Util;
+using StreamingClient.Base.Web;
 using YouTube.Base;
 using YouTube.Base.Clients;
 
@@ -35,7 +36,9 @@ public class MemoryRead
     public static int pp = 0;
     public static int pn = 0;
     public static int pd = 0;
+    public static int pc = 0;
     public static List<string> msgs = new List<string>();
+    public static byte col = 251;
 
     public static int ReadPointers(string name)
     {
@@ -44,6 +47,7 @@ public class MemoryRead
         pb = 0;//ponter to back message
         pn = 0;//pointer to names arrays
         pd = 0;//pointer to draw names
+        pc = 0;//pointer to color
         string nm = "Warcraft II BNE";
         if (name != "") nm = name;
         Process[] process = Process.GetProcessesByName(nm);
@@ -64,6 +68,8 @@ public class MemoryRead
             pn = buf[0] + 256 * buf[1] + 256 * 256 * buf[2] + 256 * 256 * 256 * buf[3];
             ReadProcessMemory((int)processHandle, pp + 12, buf, 4, ref bytesRead);
             pd = buf[0] + 256 * buf[1] + 256 * 256 * buf[2] + 256 * 256 * 256 * buf[3];
+            ReadProcessMemory((int)processHandle, pp + 16, buf, 4, ref bytesRead);
+            pc = buf[0] + 256 * buf[1] + 256 * 256 * buf[2] + 256 * 256 * 256 * buf[3];
         }
         else return 2;
         CloseHandle(processHandle);
@@ -145,7 +151,7 @@ public class MemoryRead
         return ret;
     }
 
-    public static int SendNames(ListBox box, string name,bool draw_names)
+    public static int SendNames(ListBox box, string name, bool draw_names)
     {
         int ret = 0;
         ReadPointers(name);
@@ -155,11 +161,13 @@ public class MemoryRead
         if (process.Length == 0)
             return 0;
         IntPtr processHandle = OpenProcess(0x001F0FFF, false, process[0].Id);
-        if ((pn != 0) && (pd != 0))
+        if ((pn != 0) && (pd != 0) && (pc != 0))
         {
             byte[] bufd = new byte[1];
             bufd[0] = draw_names ? (byte)1 : (byte)0;
             WriteProcessMemory((int)processHandle, pd, bufd, 1, out int byteswd);
+            bufd[0] = col;
+            WriteProcessMemory((int)processHandle, pc, bufd, 1, out int byteswc);
             byte[] buf = new byte[1000 * 32];
             for (int i = 0; i < 1000 * 32; i++) buf[i] = 0;
             for (int k = 0; (k < box.Items.Count) && (k < 1000); k++)

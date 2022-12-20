@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using System.IO;
 using System.Collections.Generic;
@@ -11,6 +11,7 @@ using TwitchLib.Communication.Clients;
 using TwitchLib.Communication.Models;
 using Google.Apis.YouTube.v3.Data;
 using StreamingClient.Base.Util;
+using StreamingClient.Base.Web;
 using YouTube.Base;
 using YouTube.Base.Clients;
 
@@ -42,7 +43,11 @@ namespace War2Streaming
         {
             if (b.con == 0) label2.Text = "Twitch NOT connected";
             if (b.con == 1) label2.Text = "Twitch connected";
-            if (b.ycon == 1) label8.Text = "Youtube connected";
+            if (b.ycon == 1)
+            {
+                label8.Text = "Youtube connected";
+                textBox10.Enabled = false;
+            }
             int read = MemoryRead.ReadPointers(textBox1.Text);
             if (read != 1)
             {
@@ -76,7 +81,12 @@ namespace War2Streaming
                                 if ((checkBox3.Checked && sub) || !checkBox3.Checked)
                                 {
                                     int indx = listBox1.Items.IndexOf(user);
-                                    if (indx == -1) listBox1.Items.Add(user);
+                                    if (indx == -1)
+                                    {
+                                        indx = listBox1.Items.IndexOf(" ");
+                                        if (indx != -1) listBox1.Items[indx] = user;
+                                        else listBox1.Items.Add(user);
+                                    }
                                     b.text = "";
                                 }
                             }
@@ -85,7 +95,7 @@ namespace War2Streaming
                                 if ((checkBox3.Checked && sub) || !checkBox3.Checked)
                                 {
                                     int indx = listBox1.Items.IndexOf(user);
-                                    if (indx != -1) listBox1.Items.RemoveAt(indx);
+                                    if (indx != -1) listBox1.Items[indx] = " ";
                                     b.text = "";
                                 }
                             }
@@ -116,37 +126,108 @@ namespace War2Streaming
                 MemoryRead.RecMsg(textBox1.Text);
                 if (MemoryRead.msgs.Count != 0)
                 {
-                    label1.Text = "Received message from War2:\n" + MemoryRead.msgs[0];
-                    bool msg_sended = false;
-                    if (b.client.IsConnected)
+                    for (int i = 0; i < MemoryRead.msgs.Count; i++)
                     {
-                        if (b.client.JoinedChannels.Count != 0)
+                        bool msg_command = false;
+                        if (MemoryRead.msgs[i] == textBox11.Text)//clear
                         {
-                            if (checkBox2.Checked)
-                            {
-                                if (MemoryRead.msgs.Count != 0)
-                                {
-                                    b.client.SendMessage(b.chan, MemoryRead.msgs[0]);
-                                    msg_sended = true;
-                                }
-                            }
+                            listBox1.Items.Clear();
+                            msg_command = true;
                         }
-                    }
-                    if (b.ycon != 0)
-                    {
-                        if (b.yclient != null)
+                        if (MemoryRead.msgs[i] == textBox12.Text)//names
                         {
+                            checkBox4.Checked = !checkBox4.Checked;
                             if (checkBox4.Checked)
                             {
-                                if (MemoryRead.msgs.Count != 0)
+                                listBox1.Enabled = true;
+                                textBox4.Enabled = true;
+                                textBox5.Enabled = true;
+                                textBox6.Enabled = true;
+                                button2.Enabled = true;
+                                button3.Enabled = true;
+                                button4.Enabled = true;
+                                checkBox3.Enabled = true;
+                            }
+                            else
+                            {
+                                listBox1.Enabled = false;
+                                textBox4.Enabled = false;
+                                textBox5.Enabled = false;
+                                textBox6.Enabled = false;
+                                button2.Enabled = false;
+                                button3.Enabled = false;
+                                button4.Enabled = false;
+                                checkBox3.Enabled = false;
+                                listBox1.Items.Clear();
+                            }
+                            msg_command = true;
+                        }
+                        if (MemoryRead.msgs[i] == textBox13.Text)//draw
+                        {
+                            checkBox7.Checked = !checkBox7.Checked;
+                            msg_command = true;
+                        }
+
+                        if (MemoryRead.msgs[i].Length > (textBox14.Text.Length + 1))
+                        {
+                            string sstart = string.Copy(MemoryRead.msgs[i]);
+                            try { sstart = sstart.Remove(textBox14.Text.Length, sstart.Length - textBox14.Text.Length); }
+                            catch (Exception) { };
+                            if (sstart == textBox14.Text)//color
+                            {
+                                string sc = MemoryRead.msgs[i].Remove(0, textBox14.Text.Length + 1);
+                                MemoryRead.col = 251;//default yellow
+                                try { MemoryRead.col = Convert.ToByte(sc); }
+                                catch (Exception) { }
+                                if (MemoryRead.col == 0)
                                 {
-                                    b.yclient.SendMessage(MemoryRead.msgs[0]);
-                                    msg_sended = true;
+                                    Random rrr = new Random();
+                                    MemoryRead.col = (byte)((rrr.Next(0, 255) + 1) % 256);
+                                }
+                                label17.Text = string.Format("Names color: {0}", MemoryRead.col);
+                                msg_command = true;
+                            }
+                        }
+                        if (msg_command)
+                        {
+                            MemoryRead.msgs.RemoveAt(i);
+                            break;
+                        }
+                    }
+                    if (MemoryRead.msgs.Count != 0)
+                    {
+                        label1.Text = "Received message from War2:\n" + MemoryRead.msgs[0];
+                        bool msg_sended = false;
+                        if (b.client.IsConnected)
+                        {
+                            if (b.client.JoinedChannels.Count != 0)
+                            {
+                                if (checkBox2.Checked)
+                                {
+                                    if (MemoryRead.msgs.Count != 0)
+                                    {
+                                        b.client.SendMessage(b.chan, MemoryRead.msgs[0]);
+                                        msg_sended = true;
+                                    }
                                 }
                             }
                         }
+                        if (b.ycon != 0)
+                        {
+                            if (b.yclient != null)
+                            {
+                                if (checkBox4.Checked)
+                                {
+                                    if (MemoryRead.msgs.Count != 0)
+                                    {
+                                        b.yclient.SendMessage(MemoryRead.msgs[0]);
+                                        msg_sended = true;
+                                    }
+                                }
+                            }
+                        }
+                        if (msg_sended) MemoryRead.msgs.RemoveAt(0);
                     }
-                    if (msg_sended) MemoryRead.msgs.RemoveAt(0);
                 }
             }
         }
@@ -199,10 +280,10 @@ namespace War2Streaming
                     S = F.ReadLine();
                     textBox3.Text = S;
                     S = F.ReadLine();
-                    if (S != "") textBox5.Text = S;
+                    if (!((S == "") || (S == null))) textBox5.Text = S;
                     else textBox5.Text = "!i_want_to_play_with_u";
                     S = F.ReadLine();
-                    if (S != "") textBox6.Text = S;
+                    if (!((S == "") || (S == null))) textBox6.Text = S;
                     else textBox6.Text = "!bye_bye";
                     S = F.ReadLine();
                     if (S != null) checkBox1.Checked = Convert.ToBoolean(S);
@@ -231,6 +312,25 @@ namespace War2Streaming
                     else checkBox7.Checked = true;
                     S = F.ReadLine();
                     textBox9.Text = S;
+                    S = F.ReadLine();
+                    if (!((S == "") || (S == null))) textBox10.Text = S;
+                    else textBox10.Text = "60";
+                    S = F.ReadLine();
+                    if (!((S == "") || (S == null))) textBox11.Text = S;
+                    else textBox11.Text = "!clear";
+                    S = F.ReadLine();
+                    if (!((S == "") || (S == null))) textBox12.Text = S;
+                    else textBox12.Text = "!names";
+                    S = F.ReadLine();
+                    if (!((S == "") || (S == null))) textBox13.Text = S;
+                    else textBox13.Text = "!draw";
+                    S = F.ReadLine();
+                    if (!((S == "") || (S == null))) textBox14.Text = S;
+                    else textBox14.Text = "!color";
+                    S = F.ReadLine();
+                    MemoryRead.col = 251;
+                    if (!((S == "") || (S == null)))try {MemoryRead.col = Convert.ToByte(S);}catch(Exception){};
+                    label17.Text = string.Format("Names color: {0}", MemoryRead.col);
                 }
                 F.Close();
             }
@@ -271,6 +371,18 @@ namespace War2Streaming
             F.Write(info14, 0, info14.Length);
             byte[] info15 = new UTF8Encoding(true).GetBytes(textBox9.Text + "\n");
             F.Write(info15, 0, info15.Length);
+            byte[] info16 = new UTF8Encoding(true).GetBytes(textBox10.Text + "\n");
+            F.Write(info16, 0, info16.Length);
+            byte[] info17 = new UTF8Encoding(true).GetBytes(textBox11.Text + "\n");
+            F.Write(info17, 0, info17.Length);
+            byte[] info18 = new UTF8Encoding(true).GetBytes(textBox12.Text + "\n");
+            F.Write(info18, 0, info18.Length);
+            byte[] info19 = new UTF8Encoding(true).GetBytes(textBox13.Text + "\n");
+            F.Write(info19, 0, info19.Length);
+            byte[] info20 = new UTF8Encoding(true).GetBytes(textBox14.Text + "\n");
+            F.Write(info20, 0, info20.Length);
+            byte[] info21 = new UTF8Encoding(true).GetBytes(MemoryRead.col.ToString() + "\n");
+            F.Write(info21, 0, info21.Length);
             F.Close();
             listBox1.Items.Clear();
         }
@@ -295,7 +407,11 @@ namespace War2Streaming
         private void button3_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < listBox1.Items.Count; i++)
-                if (listBox1.GetSelected(i))listBox1.Items.RemoveAt(i);
+                if (listBox1.GetSelected(i))
+                {
+                    if (listBox1.Items[i] == " ") listBox1.Items.RemoveAt(i);
+                    else listBox1.Items[i] = " ";
+                }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -344,6 +460,7 @@ namespace War2Streaming
                 string clientSecret = textBox8.Text;
                 label8.Text = "Connecting to youtube...";
                 b.ycon = 0;
+                textBox10.Enabled = true;
                 Task.Run(async () =>
                 {
                     try
@@ -362,10 +479,22 @@ namespace War2Streaming
                                 b.yclient.OnMessagesReceived += b.YClient_OnMessagesReceived;
                                 if (broadcast != null)
                                 {
-                                    if (await b.yclient.Connect(broadcast))
+                                    int secs = 60;
+                                    try
                                     {
-                                        await b.yclient.SendMessage("War2Streaming connected!");
+                                        secs = Convert.ToInt32(textBox10.Text);
+                                    }
+                                    catch (Exception) { textBox10.Text = "60"; }
+                                    if (secs < 1)
+                                    {
+                                        secs = 1;
+                                        textBox10.Text = "60";
+                                    }
+                                    if (await b.yclient.Connect(broadcast, true, 1000 * secs))//60 sec default
+                                    {
+                                        //await b.yclient.SendMessage("War2Streaming connected!");
                                         label8.Text = "Youtube Connected!";
+                                        textBox10.Enabled = false;
                                         b.ycon = 1;
                                     }
                                     else

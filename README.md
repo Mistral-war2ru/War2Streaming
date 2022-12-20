@@ -20,4 +20,6 @@ those names can be shown on top of newly created units, so basically it allows t
 
 program using TwitchLib for C# - https://github.com/TwitchLib/TwitchLib
 
-program using GoogleAPI for youtube integration https://www.nuget.org/packages/Google.Apis
+program using GoogleAPI for youtube integration - https://www.nuget.org/packages/Google.Apis
+
+program using StreamingClientLibrary - https://github.com/SaviorXTanren/StreamingClientLibrary

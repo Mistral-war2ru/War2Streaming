@@ -224,15 +224,18 @@ int* bld_unit_create(int a1, int a2, int a3, byte a4, int* a5)
 {
     int* b = (int*)*(int*)UNIT_RUN_UNIT_POINTER;
     int* u = ((int* (*)(int, int, int, byte, int*))g_proc_0040DF71)(a1, a2, a3, a4, a5);
-    byte o = *((byte*)((uintptr_t)u + S_OWNER));
-    if (o == *(byte*)LOCAL_PLAYER)
+    if (u != NULL)
     {
-        int name_id = find_name();
-        int pl = find_place(u);
-        if ((pl != -1) && (name_id != -1))
+        byte o = *((byte*)((uintptr_t)u + S_OWNER));
+        if (o == *(byte*)LOCAL_PLAYER)
         {
-            namaes[pl].u = u;
-            namaes[pl].name_id = name_id;
+            int name_id = find_name();
+            int pl = find_place(u);
+            if ((pl != -1) && (name_id != -1))
+            {
+                namaes[pl].u = u;
+                namaes[pl].name_id = name_id;
+            }
         }
     }
     return u;

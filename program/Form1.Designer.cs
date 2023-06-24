@@ -1,4 +1,4 @@
-namespace War2Streaming
+﻿namespace War2Streaming
 {
     partial class Form1
     {
@@ -77,6 +77,7 @@ namespace War2Streaming
             this.label16 = new System.Windows.Forms.Label();
             this.textBox14 = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
+            this.button6 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -252,7 +253,7 @@ namespace War2Streaming
             // 
             this.linkLabel1.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(631, 592);
+            this.linkLabel1.Location = new System.Drawing.Point(625, 641);
             this.linkLabel1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(55, 17);
@@ -265,7 +266,7 @@ namespace War2Streaming
             // 
             this.linkLabel2.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
             this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(10, 592);
+            this.linkLabel2.Location = new System.Drawing.Point(10, 641);
             this.linkLabel2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(122, 17);
@@ -552,11 +553,23 @@ namespace War2Streaming
             this.label17.TabIndex = 50;
             this.label17.Text = "Names color: 251";
             // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(287, 626);
+            this.button6.Margin = new System.Windows.Forms.Padding(4);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(157, 28);
+            this.button6.TabIndex = 51;
+            this.button6.Text = "Allowed Units";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(687, 618);
+            this.ClientSize = new System.Drawing.Size(687, 667);
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.textBox14);
@@ -663,5 +676,7 @@ namespace War2Streaming
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox textBox14;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Button button6;
     }
 }
+

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows.Forms;
 using System.IO;
 using System.Collections.Generic;
@@ -331,6 +331,12 @@ namespace War2Streaming
                     MemoryRead.col = 251;
                     if (!((S == "") || (S == null)))try {MemoryRead.col = Convert.ToByte(S);}catch(Exception){};
                     label17.Text = string.Format("Names color: {0}", MemoryRead.col);
+                    S = F.ReadLine();
+                    MemoryRead.a1 = 0x3FFFFFFFFFFFFFF;
+                    if (!((S == "") || (S == null))) try { MemoryRead.a1 = Convert.ToInt64(S); } catch (Exception) { };
+                    S = F.ReadLine();
+                    MemoryRead.a2 = 0;
+                    if (!((S == "") || (S == null))) try { MemoryRead.a2 = Convert.ToInt64(S); } catch (Exception) { };
                 }
                 F.Close();
             }
@@ -383,6 +389,10 @@ namespace War2Streaming
             F.Write(info20, 0, info20.Length);
             byte[] info21 = new UTF8Encoding(true).GetBytes(MemoryRead.col.ToString() + "\n");
             F.Write(info21, 0, info21.Length);
+            byte[] info22 = new UTF8Encoding(true).GetBytes(MemoryRead.a1.ToString() + "\n");
+            F.Write(info22, 0, info22.Length);
+            byte[] info23 = new UTF8Encoding(true).GetBytes(MemoryRead.a2.ToString() + "\n");
+            F.Write(info23, 0, info23.Length);
             F.Close();
             listBox1.Items.Clear();
         }
@@ -517,6 +527,13 @@ namespace War2Streaming
             }
             else
                 label8.Text = "Youtube Error! Write correct data first!";
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Allowed_units af = new Allowed_units();
+            af.ShowDialog();
+
         }
     }
 }

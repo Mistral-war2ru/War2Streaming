@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
@@ -37,8 +37,12 @@ public class MemoryRead
     public static int pn = 0;
     public static int pd = 0;
     public static int pc = 0;
+    public static int pa1 = 0;
+    public static int pa2 = 0;
     public static List<string> msgs = new List<string>();
     public static byte col = 251;
+    public static long a1 = 0x3FFFFFFFFFFFFFF;
+    public static long a2 = 0;
 
     public static int ReadPointers(string name)
     {
@@ -48,6 +52,8 @@ public class MemoryRead
         pn = 0;//pointer to names arrays
         pd = 0;//pointer to draw names
         pc = 0;//pointer to color
+        pa1 = 0;//pointer to allowed units 1
+        pa2 = 0;//pointer to allowed units 2
         string nm = "Warcraft II BNE";
         if (name != "") nm = name;
         Process[] process = Process.GetProcessesByName(nm);
@@ -70,6 +76,10 @@ public class MemoryRead
             pd = buf[0] + 256 * buf[1] + 256 * 256 * buf[2] + 256 * 256 * 256 * buf[3];
             ReadProcessMemory((int)processHandle, pp + 16, buf, 4, ref bytesRead);
             pc = buf[0] + 256 * buf[1] + 256 * 256 * buf[2] + 256 * 256 * 256 * buf[3];
+            ReadProcessMemory((int)processHandle, pp + 20, buf, 4, ref bytesRead);
+            pa1 = buf[0] + 256 * buf[1] + 256 * 256 * buf[2] + 256 * 256 * 256 * buf[3];
+            ReadProcessMemory((int)processHandle, pp + 24, buf, 4, ref bytesRead);
+            pa2 = buf[0] + 256 * buf[1] + 256 * 256 * buf[2] + 256 * 256 * 256 * buf[3];
         }
         else return 2;
         CloseHandle(processHandle);
@@ -161,13 +171,20 @@ public class MemoryRead
         if (process.Length == 0)
             return 0;
         IntPtr processHandle = OpenProcess(0x001F0FFF, false, process[0].Id);
-        if ((pn != 0) && (pd != 0) && (pc != 0))
+        if ((pn != 0) && (pd != 0) && (pc != 0) && (pa1 != 0) && (pa2 != 0))
         {
             byte[] bufd = new byte[1];
             bufd[0] = draw_names ? (byte)1 : (byte)0;
             WriteProcessMemory((int)processHandle, pd, bufd, 1, out int byteswd);
             bufd[0] = col;
             WriteProcessMemory((int)processHandle, pc, bufd, 1, out int byteswc);
+
+            byte[] bufa = new byte[8];
+            bufa = BitConverter.GetBytes(a1);
+            WriteProcessMemory((int)processHandle, pa1, bufa, 8, out int byteswa1);
+            bufa = BitConverter.GetBytes(a2);
+            WriteProcessMemory((int)processHandle, pa2, bufa, 8, out int byteswa2);
+
             byte[] buf = new byte[1000 * 32];
             for (int i = 0; i < 1000 * 32; i++) buf[i] = 0;
             for (int k = 0; (k < box.Items.Count) && (k < 1000); k++)
@@ -187,6 +204,117 @@ public class MemoryRead
         CloseHandle(processHandle);
         return ret;
     }
+
+    public static List<string> unit_types;
+
+    public static void fill_list()
+    {
+        unit_types = new List<string>();
+        unit_types.Add("Footman");
+        unit_types.Add("Grunt");
+        unit_types.Add("Peasant");
+        unit_types.Add("Peon");
+        unit_types.Add("Ballista");
+        unit_types.Add("Catapult");
+        unit_types.Add("Knight");
+        unit_types.Add("Ogre");
+        unit_types.Add("Archer");
+        unit_types.Add("Troll");
+        unit_types.Add("Mage");
+        unit_types.Add("Death knight");
+        unit_types.Add("Paladin");
+        unit_types.Add("Ogre-mage");
+        unit_types.Add("Dwarwes");
+        unit_types.Add("Goblins");
+        unit_types.Add("Attack Peasant");
+        unit_types.Add("Attack Peon");
+        unit_types.Add("Ranger");
+        unit_types.Add("Berserk");
+        unit_types.Add("Alleria");
+        unit_types.Add("Teron");
+        unit_types.Add("Kurdran");
+        unit_types.Add("Dentarg");
+        unit_types.Add("Hadgar");
+        unit_types.Add("Grom");
+        unit_types.Add("Human tanker");
+        unit_types.Add("Orc tanker");
+        unit_types.Add("Human transport");
+        unit_types.Add("Orc transport");
+        unit_types.Add("Elf destroyer");
+        unit_types.Add("Troll destroyer");
+        unit_types.Add("Battleship");
+        unit_types.Add("Juggernaut");
+        unit_types.Add("TYPE_A100");
+        unit_types.Add("Deathwing");
+        unit_types.Add("TYPE_B36");
+        unit_types.Add("TYPE_B37");
+        unit_types.Add("Submarine");
+        unit_types.Add("Turtle");
+        unit_types.Add("Helicopter");
+        unit_types.Add("Zeppelin");
+        unit_types.Add("Grifon");
+        unit_types.Add("Dragon");
+        unit_types.Add("Tyralyon");
+        unit_types.Add("Eye");
+        unit_types.Add("Danath");
+        unit_types.Add("Kargath");
+        unit_types.Add("TYPE_A5");
+        unit_types.Add("Chogal");
+        unit_types.Add("Lothar");
+        unit_types.Add("Guldan");
+        unit_types.Add("Uter");
+        unit_types.Add("Zuljin");
+        unit_types.Add("TYPE_A600");
+        unit_types.Add("Skeleton");
+        unit_types.Add("Demon");
+        unit_types.Add("Critter");
+        unit_types.Add("Farm");
+        unit_types.Add("Pig farm");
+        unit_types.Add("Human barrack");
+        unit_types.Add("Orc barrack");
+        unit_types.Add("Church");
+        unit_types.Add("Altar");
+        unit_types.Add("Human tower");
+        unit_types.Add("Orc tower");
+        unit_types.Add("Stables");
+        unit_types.Add("Ogremound");
+        unit_types.Add("Inventor");
+        unit_types.Add("Alchemist");
+        unit_types.Add("Aviary");
+        unit_types.Add("Dragonroost");
+        unit_types.Add("Shipyard");
+        unit_types.Add("Wharf");
+        unit_types.Add("Town Hall");
+        unit_types.Add("Great Hall");
+        unit_types.Add("Elf lumbermill");
+        unit_types.Add("Troll lumbermill");
+        unit_types.Add("Human foundry");
+        unit_types.Add("Orc foundry");
+        unit_types.Add("Mage tower");
+        unit_types.Add("Temple of damned");
+        unit_types.Add("Human smith");
+        unit_types.Add("Orc smith");
+        unit_types.Add("Human refinery");
+        unit_types.Add("Orc refinery");
+        unit_types.Add("Human oil platform");
+        unit_types.Add("Orc oil platform");
+        unit_types.Add("Keep");
+        unit_types.Add("Stronghold");
+        unit_types.Add("Castle");
+        unit_types.Add("Fortress");
+        unit_types.Add("Goldmine");
+        unit_types.Add("Oil");
+        unit_types.Add("Hstart");
+        unit_types.Add("Ostart");
+        unit_types.Add("Human arrow tower");
+        unit_types.Add("Orc arrow tower");
+        unit_types.Add("Human canon tower");
+        unit_types.Add("Orc canon tower");
+        unit_types.Add("Circle");
+        unit_types.Add("Portal");
+        unit_types.Add("Runestone");
+    }
+
 }
 
 class Bot
@@ -295,6 +423,8 @@ namespace War2Streaming
         [STAThread]
         static void Main()
         {
+            MemoryRead.fill_list();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

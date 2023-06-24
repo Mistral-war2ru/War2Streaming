@@ -29,13 +29,16 @@ struct unit_names
 };
 bool game_started = false;
 DWORD draw_names = 1;
-char pointers[20] = { 0 };
+char pointers[28] = { 0 };
 char msg[60];
 char bmsg[60];
 char users[1000][32];
 unit_names namaes[1600];
 int last = -1;
 byte color = 251;
+
+DWORD64 allowed_units1 = 0x3FFFFFFFFFFFFFF;
+DWORD64 allowed_units2 = 0;
 
 void show_message(byte time, char* text)
 {
@@ -71,6 +74,19 @@ bool check_unit_hidden(int* p)
     }
     else
         f = true;
+    return f;
+}
+
+bool check_unit_complete(int* p)
+{
+    bool f = false;
+    if (p)
+    {
+        if ((*((byte*)((uintptr_t)p + S_FLAGS3)) & SF_COMPLETED) != 0)//flags3 last bit
+            f = true;
+    }
+    else
+        f = false;
     return f;
 }
 
@@ -223,22 +239,63 @@ PROC g_proc_0040DF71;
 int* bld_unit_create(int a1, int a2, int a3, byte a4, int* a5)
 {
     int* b = (int*)*(int*)UNIT_RUN_UNIT_POINTER;
-    int* u = ((int* (*)(int, int, int, byte, int*))g_proc_0040DF71)(a1, a2, a3, a4, a5);
-    if (u != NULL)
+    if (b != NULL)
     {
-        byte o = *((byte*)((uintptr_t)u + S_OWNER));
-        if (o == *(byte*)LOCAL_PLAYER)
+        int* u = ((int* (*)(int, int, int, byte, int*))g_proc_0040DF71)(a1, a2, a3, a4, a5);//original
+        if (u != NULL)
         {
-            int name_id = find_name();
-            int pl = find_place(u);
-            if ((pl != -1) && (name_id != -1))
+            byte o = *((byte*)((uintptr_t)u + S_OWNER));
+            if (o == *(byte*)LOCAL_PLAYER)
             {
-                namaes[pl].u = u;
-                namaes[pl].name_id = name_id;
+                byte id = *((byte*)((uintptr_t)u + S_ID));
+                bool f = false;
+                if (id < 64)f = (allowed_units1 & (DWORD64)1 << id) != 0;
+                else f = (allowed_units2 & (DWORD64)1 << id) != 0;
+                if (f)
+                {
+                    int name_id = find_name();
+                    int pl = find_place(u);
+                    if ((pl != -1) && (name_id != -1))
+                    {
+                        namaes[pl].u = u;
+                        namaes[pl].name_id = name_id;
+                    }
+                }
+            }
+        }
+        return u;
+    }
+    else return ((int* (*)(int, int, int, byte, int*))g_proc_0040DF71)(a1, a2, a3, a4, a5);//original
+}
+
+PROC g_proc_004526FE;
+void grow_structure(int* p)
+{
+    ((void (*)(int*))g_proc_004526FE)(p);//original
+    if (p)
+    {
+        if (check_unit_complete(p))
+        {
+            byte o = *((byte*)((uintptr_t)p + S_OWNER));
+            if (o == *(byte*)LOCAL_PLAYER)
+            {
+                byte id = *((byte*)((uintptr_t)p + S_ID));
+                bool f = false;
+                if (id < 64)f = (allowed_units1 & (DWORD64)1 << id) != 0;
+                else f = (allowed_units2 & (DWORD64)1 << id) != 0;
+                if (f)
+                {
+                    int name_id = find_name();
+                    int pl = find_place(p);
+                    if ((pl != -1) && (name_id != -1))
+                    {
+                        namaes[pl].u = p;
+                        namaes[pl].name_id = name_id;
+                    }
+                }
             }
         }
     }
-    return u;
 }
 
 PROC g_proc_00451728;
@@ -407,6 +464,8 @@ int draw_text(int x, int y, byte c, unsigned char* ch, byte bc, byte cond, bool 
     return w;
 }
 
+#define GAME_MODE 0x004AE430
+
 void drawing()
 {
     ScreenPTR = getScreenPtr();
@@ -421,7 +480,8 @@ void drawing()
             p = (int*)(*p);
             while (p)
             {
-                if (*((byte*)((uintptr_t)p + S_ID)) < U_FARM)
+                if ((*((byte*)((uintptr_t)p + S_ID)) < U_FARM) ||
+                    ((*((byte*)((uintptr_t)p + S_ID)) >= U_FARM) & check_unit_complete(p)))
                 {
                     if (!check_unit_dead(p) && !check_unit_hidden(p))
                     {
@@ -494,11 +554,14 @@ extern "C" __declspec(dllexport) void w2p_init()
     patch_setdword((DWORD*)(pointers + 8), (DWORD)users);
     patch_setdword((DWORD*)(pointers + 12), (DWORD)&draw_names);
     patch_setdword((DWORD*)(pointers + 16), (DWORD)&color);
+    patch_setdword((DWORD*)(pointers + 20), (DWORD)&allowed_units1);
+    patch_setdword((DWORD*)(pointers + 24), (DWORD)&allowed_units2);
     patch_setdword((DWORD*)0x0048FFF0, (DWORD)pointers);
 
     hook(0x0045271B, &g_proc_0045271B, (char*)update_spells);
     hook(0x0044CEBB, &g_proc_0044CEBB, (char*)get_msg);
     hook(0x0040DF71, &g_proc_0040DF71, (char*)bld_unit_create);
+    hook(0x004526FE, &g_proc_004526FE, (char*)grow_structure);
     hook(0x00451728, &g_proc_00451728, (char*)unit_kill_deselect);
     hook(0x0044A65C, &g_proc_0044A65C, (char*)status_get_tbl);
     hook(0x0044AC83, &g_proc_0044AC83, (char*)unit_hover_get_id);

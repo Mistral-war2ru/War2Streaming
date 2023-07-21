@@ -496,10 +496,10 @@ void drawing()
                             {
                                 if (users[namaes[uid].name_id][0] != 0)
                                 {
-                                    draw_text(
-                                        m_minx + xx - cx * 32,
-                                        m_miny + yy - cy * 32 - 10,
-                                        color, (unsigned char*)users[namaes[uid].name_id], 0, 0, true);
+                                    int dy = m_miny + yy - cy * 32 - 10;
+                                    if (dy < 17)dy = 17;
+                                    draw_text(m_minx + xx - cx * 32, dy, color,
+                                        (unsigned char*)users[namaes[uid].name_id], 0, 0, true);
                                 }
                                 else
                                 {

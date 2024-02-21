@@ -78,6 +78,7 @@
             this.textBox14 = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
+            this.checkBox8 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -253,13 +254,13 @@
             // 
             this.linkLabel1.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(625, 641);
+            this.linkLabel1.Location = new System.Drawing.Point(573, 641);
             this.linkLabel1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(55, 17);
+            this.linkLabel1.Size = new System.Drawing.Size(108, 17);
             this.linkLabel1.TabIndex = 20;
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "war2.ru";
+            this.linkLabel1.Text = "warcraft2.online";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // linkLabel2
@@ -564,11 +565,25 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // checkBox8
+            // 
+            this.checkBox8.AutoSize = true;
+            this.checkBox8.Checked = true;
+            this.checkBox8.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox8.Location = new System.Drawing.Point(13, 596);
+            this.checkBox8.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBox8.Name = "checkBox8";
+            this.checkBox8.Size = new System.Drawing.Size(215, 21);
+            this.checkBox8.TabIndex = 52;
+            this.checkBox8.Text = "Save names in file before exit";
+            this.checkBox8.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(687, 667);
+            this.Controls.Add(this.checkBox8);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.label16);
@@ -677,6 +692,7 @@
         private System.Windows.Forms.TextBox textBox14;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.CheckBox checkBox8;
     }
 }
 

@@ -329,7 +329,7 @@ namespace War2Streaming
                     else textBox14.Text = "!color";
                     S = F.ReadLine();
                     MemoryRead.col = 251;
-                    if (!((S == "") || (S == null)))try {MemoryRead.col = Convert.ToByte(S);}catch(Exception){};
+                    if (!((S == "") || (S == null))) try { MemoryRead.col = Convert.ToByte(S); } catch (Exception) { };
                     label17.Text = string.Format("Names color: {0}", MemoryRead.col);
                     S = F.ReadLine();
                     MemoryRead.a1 = 0x3FFFFFFFFFFFFFF;
@@ -337,15 +337,27 @@ namespace War2Streaming
                     S = F.ReadLine();
                     MemoryRead.a2 = 0;
                     if (!((S == "") || (S == null))) try { MemoryRead.a2 = Convert.ToInt64(S); } catch (Exception) { };
+                    S = F.ReadLine();
+                    if (S != null) checkBox8.Checked = Convert.ToBoolean(S);
+                    else checkBox8.Checked = true;
                 }
                 F.Close();
+            }
+            if (File.Exists("names.save"))
+            {
+                StreamReader F2 = File.OpenText("names.save");
+                while (!F2.EndOfStream)
+                {
+                    string S = F2.ReadLine();
+                    listBox1.Items.Add(S);
+                }
+                F2.Close();
             }
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (File.Exists("record.save"))
-                File.Delete("record.save");
+            if (File.Exists("record.save"))File.Delete("record.save");
             FileStream F = File.OpenWrite("record.save");
             byte[] info = new UTF8Encoding(true).GetBytes(textBox1.Text + "\n");
             F.Write(info, 0, info.Length);
@@ -393,14 +405,29 @@ namespace War2Streaming
             F.Write(info22, 0, info22.Length);
             byte[] info23 = new UTF8Encoding(true).GetBytes(MemoryRead.a2.ToString() + "\n");
             F.Write(info23, 0, info23.Length);
+            byte[] info24 = new UTF8Encoding(true).GetBytes(checkBox8.Checked.ToString() + "\n");
+            F.Write(info24, 0, info24.Length);
             F.Close();
+
+            if (checkBox8.Checked)
+            {
+                if (File.Exists("names.save")) File.Delete("names.save");
+                FileStream F2 = File.OpenWrite("names.save");
+                foreach (string s in listBox1.Items)
+                {
+                    byte[] name_info = new UTF8Encoding(true).GetBytes(s + "\n");
+                    F2.Write(name_info, 0, name_info.Length);
+                }
+                F2.Close();
+            }
+
             listBox1.Items.Clear();
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkLabel1.LinkVisited = true;
-            System.Diagnostics.Process.Start("http://en.war2.ru");
+            System.Diagnostics.Process.Start("http://warcraft2.online");
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

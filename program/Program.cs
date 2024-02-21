@@ -375,9 +375,25 @@ class Bot
     {
         string fm = e.ChatMessage.Message;
         string user = e.ChatMessage.Username;
-        if (e.ChatMessage.IsSubscriber) user = '\x04' + user;
-        else user = '\x05' + user;
-        msg_rec(user, fm);
+
+        if (user == "restreambot")
+        {
+            if (fm.Contains("[YouTube:"))
+            {
+                fm = fm.Remove(0, 10);
+                int fi = fm.IndexOf(']');
+                user = fm.Substring(0, fi);
+                fm = fm.Remove(0, fi + 2);
+                user = '\x05' + user;
+                msg_rec(user, fm);
+            }
+        }
+        else
+        {
+            if (e.ChatMessage.IsSubscriber) user = '\x04' + user;
+            else user = '\x05' + user;
+            msg_rec(user, fm);
+        }
     }
 
     public void Client_OnJoinedChannel(object sender, OnJoinedChannelArgs e)//twitch

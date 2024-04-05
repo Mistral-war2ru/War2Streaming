@@ -314,69 +314,6 @@ void unit_kill_deselect(int* u)
     }
 }
 
-PROC g_proc_0044A65C;
-int status_get_tbl(void* tbl, WORD str_id)
-{
-    int* u = (int*)*(int*)UNIT_STATUS_TBL;
-    if (u != NULL)
-    {
-        byte id = *((byte*)((uintptr_t)u + S_ID));
-        if (id < U_EMPTY_BUTTONS)
-        {
-            if (str_id < U_EMPTY_BUTTONS)
-            {
-                for (int k = 0; k < 1600; k++)
-                {
-                    if (namaes[k].u == u)
-                    {
-                        return (int)users + 32 * namaes[k].name_id;
-                    }
-                }
-            }
-        }
-    }
-    return ((int (*)(void*, int))g_proc_0044A65C)(tbl, str_id);//original
-}
-
-int* hover_unit;
-
-PROC g_proc_0044AC83;
-void unit_hover_get_id(int a, int* b)
-{
-    if (b != NULL)
-    {
-        byte id = *((byte*)((uintptr_t)b + 0x20));
-        hover_unit = (int*)*(int*)(LOCAL_UNIT_SELECTED_PANEL + 4 * id);
-    }
-    else
-        hover_unit = NULL;
-    ((void (*)(int, int*))g_proc_0044AC83)(a, b);//original
-}
-
-PROC g_proc_0044AE27;
-int unit_hover_get_tbl(void* tbl, WORD str_id)
-{
-    int* u = hover_unit;
-    if (u != NULL)
-    {
-        byte id = *((byte*)((uintptr_t)u + S_ID));
-        if (id < U_EMPTY_BUTTONS)
-        {
-            if (str_id < U_EMPTY_BUTTONS)
-            {
-                for (int k = 0; k < 1600; k++)
-                {
-                    if (namaes[k].u == u)
-                    {
-                        return (int)users + 32 * namaes[k].name_id;
-                    }
-                }
-            }
-        }
-    }
-    return ((int (*)(void*, int))g_proc_0044AE27)(tbl, str_id);//original
-}
-
 PROC g_proc_0042A4A1;
 void new_game(int a, int b, long c)
 {
@@ -563,9 +500,6 @@ extern "C" __declspec(dllexport) void w2p_init()
     hook(0x0040DF71, &g_proc_0040DF71, (char*)bld_unit_create);
     hook(0x004526FE, &g_proc_004526FE, (char*)grow_structure);
     hook(0x00451728, &g_proc_00451728, (char*)unit_kill_deselect);
-    hook(0x0044A65C, &g_proc_0044A65C, (char*)status_get_tbl);
-    hook(0x0044AC83, &g_proc_0044AC83, (char*)unit_hover_get_id);
-    hook(0x0044AE27, &g_proc_0044AE27, (char*)unit_hover_get_tbl);
     hook(0x0042A4A1, &g_proc_0042A4A1, (char*)new_game);
     hook(0x00421F57, &g_proc_00421F57, (char*)draw_hook3);
 }

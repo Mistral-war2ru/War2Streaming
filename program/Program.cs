@@ -12,6 +12,7 @@ using StreamingClient.Base.Util;
 using StreamingClient.Base.Web;
 using YouTube.Base;
 using YouTube.Base.Clients;
+using System.Text;
 
 public class MemoryRead
 {
@@ -190,7 +191,8 @@ public class MemoryRead
             for (int k = 0; (k < box.Items.Count) && (k < 1000); k++)
             {
                 string msg = (string)box.Items[k];
-                char[] buf2 = msg.ToCharArray();
+                //char[] buf2 = msg.ToCharArray();
+                byte[] buf2 = Encoding.Default.GetBytes(msg);
                 for (int i = 0; (i < 32) && (i < msg.Length); i++)
                 {
                     buf[k * 32 + i] = (byte)buf2[i];
